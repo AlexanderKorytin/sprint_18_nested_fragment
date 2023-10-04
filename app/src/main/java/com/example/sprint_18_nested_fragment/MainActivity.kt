@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity(),
     SongNameProvider {
 
-    override fun getSongName(): String = "Muse - Starlight"
+    override fun getSongName(): String = "Mutter - Ramstein"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
