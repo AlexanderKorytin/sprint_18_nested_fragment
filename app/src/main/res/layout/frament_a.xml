@@ -8,13 +8,9 @@
     tools:context=".FragmentA">
 
     <TextView
+        android:id="@+id/song_text"
         style="@style/InfoText"
-        android:text="Это FragmentA :)" />
-    <TextView
-        android:id="@+id/songName"
-        style="@style/InfoText"
-        android:text="Это FragmentA :)" />
-
+        tools:text="Это FragmentA :)" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_child_container"

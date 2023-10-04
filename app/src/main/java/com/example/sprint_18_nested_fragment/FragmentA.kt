@@ -10,29 +10,31 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.sprint_18_nested_fragment.databinding.FramentABinding
 
-class FragmentA: Fragment() {
-    private var _binding:FramentABinding? = null
-    private val binding get() = _binding!!
+// Родительский класс, в который мы будем запихивать вложенные классы NestedFragmentA и NestedFragmentB.
+class FragmentA : BindingFragment<FramentABinding>() {
 
-    companion object{
-        const val KEY_SONG = "Key_Song"
-        fun newInstance(song: String) = FragmentA().apply { arguments  = bundleOf(KEY_SONG to song) }
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-       _binding = FramentABinding.inflate(inflater, container, false)
-        return binding.root
+    override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FramentABinding {
+        return FramentABinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val song = requireArguments().getString(KEY_SONG)
-        binding.songName.text = song
-        childFragmentManager.commit {
-            add<NestedFragmentA>(R.id.fragment_child_container)
+
+        // Установка названия песни и передача данных через аргументы
+        binding.songText.text = requireArguments().getString(SONG_NAME_KEY)
+            .plus(other = " | Parent")
+
+        // Добавление первого вложенного фрагмента
+        childFragmentManager.beginTransaction()
+            .add(R.id.fragment_child_container, NestedFragmentA())
+            .commit()
+    }
+
+    companion object {
+        private const val SONG_NAME_KEY = "SONG_NAME_KEY"
+
+        fun getInstance(songName: String): FragmentA = FragmentA().apply {
+            arguments = bundleOf(SONG_NAME_KEY to songName)
         }
     }
 }
